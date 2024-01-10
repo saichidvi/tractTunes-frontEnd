@@ -3,9 +3,11 @@ import { toast } from "react-toastify";
 
 export default function ListArtists() {
   const [artists, setArtists] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchArtists = async () => {
       try {
+        setLoading(true);
         const res = await fetch(
           "https://track-tunes-backend.vercel.app/api/artist/getArtistsSongsCount",
           {
@@ -16,6 +18,7 @@ export default function ListArtists() {
           }
         );
         const data = await res.json();
+        setLoading(false);
         if (data.success === false) {
           toast.error(data.message);
           return;
@@ -30,7 +33,7 @@ export default function ListArtists() {
   console.log(artists);
   return (
     <div>
-      {artists ? (
+      {!loading ? (
         <div>
           <h1 className="flex justify-center  text-2xl md:text-3xl lg:text-4xl font-semibold items-center mx-auto    text-blue-700 px-6 mt-10 md:mt20">
             Artists with their songs count.
@@ -52,7 +55,9 @@ export default function ListArtists() {
           </div>
         </div>
       ) : (
-        <p>Fetching the artists with songs count.</p>
+        <p className="flex justify-center  text-2xl md:text-3xl lg:text-4xl font-semibold items-center mx-auto    text-blue-700 px-6 mt-10 md:mt20">
+          Loading please wait.
+        </p>
       )}
     </div>
   );

@@ -3,9 +3,11 @@ import { toast } from "react-toastify";
 
 export default function ListSongs() {
   const [songs, setSongs] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchSongs = async () => {
       try {
+        setLoading(true);
         const res = await fetch(
           "https://track-tunes-backend.vercel.app/api/song/getAllSongs",
           {
@@ -16,6 +18,7 @@ export default function ListSongs() {
           }
         );
         const data = await res.json();
+        setLoading(false);
         if (data.success === false) {
           toast.error(data.message);
           return;
@@ -30,7 +33,11 @@ export default function ListSongs() {
   console.log(songs);
   return (
     <div>
-      {songs ? (
+      {loading ? (
+        <p className="flex justify-center  text-2xl md:text-3xl lg:text-4xl font-semibold items-center mx-auto    text-blue-700 px-6 mt-10 md:mt20">
+          Loading please wait.
+        </p>
+      ) : (
         <div>
           <h1 className="flex justify-center  text-2xl md:text-3xl lg:text-4xl font-semibold items-center mx-auto    text-blue-700 px-6 mt-10 md:mt20">
             Songs with their composed artists.
@@ -51,8 +58,6 @@ export default function ListSongs() {
             })}
           </div>
         </div>
-      ) : (
-        <p>Fetching the songs with their artist details.</p>
       )}
     </div>
   );
