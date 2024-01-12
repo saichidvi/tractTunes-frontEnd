@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Loader from "./Loader";
 
 export default function ListArtists() {
   const [artists, setArtists] = useState([]);
@@ -55,9 +56,12 @@ export default function ListArtists() {
           </div>
         </div>
       ) : (
-        <p className="flex justify-center  text-2xl md:text-3xl lg:text-4xl font-semibold items-center mx-auto    text-blue-700 px-6 mt-10 md:mt20">
-          Loading please wait.
-        </p>
+        <>
+          {/* <p className="flex justify-center  text-2xl md:text-3xl lg:text-4xl font-semibold items-center mx-auto    text-blue-700 px-6 mt-10 md:mt20">
+            Loading please wait.
+          </p> */}
+          <Loader></Loader>
+        </>
       )}
     </div>
   );
